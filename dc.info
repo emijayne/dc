@@ -1,0 +1,7 @@
+name = Document Control
+description = Beginning transition to Adept (AUTOCAD1) and later will integrate MDMDB (10.10.1.55)
+core = 7.x
+package = Document Control @ Hamon
+
+files[] = dc_handler_field_datetime.inc
+files[] = dc_handler_filter_datetime.inc

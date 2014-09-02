@@ -1,0 +1,52 @@
+// not used
+
+  $data['Files']['table']['default_relationship'] = array(
+    'Relate' => array(
+      'left_field' => 'IDrevP',
+      'field' => 'IDrev',
+    ),
+  );  
+
+  $data['Relate']['table']['join'] = array(
+    'Files' => array(
+      'left_field' => 'IDrev',
+      'field' => 'IDrevC',
+    ),
+  );  
+
+  $data['Transmittals']['table']['default_relationship'] = array(
+    'Files' => array(
+      'left_table' => 'Relate',
+      'left_field' => 'IDrevP',
+      'field' => 'IDrev',
+      'extra' => array(array('field' => 'S_RELTYPE', 'value' => 'TR', 'operator' => '=')),
+    ),
+  );  
+
+// only this
+
+    'relationship' => array(
+      'base' => 'Relate', // The name of the table to join with.
+      'base field' => 'IDrevP', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Relations'),
+      'title' => t('Relationship with Relations table.'),
+      'extra' => array(array('field' => 'S_RELTYPE', 'value' => 'GP', 'operator' => '=')),
+    ),
+
+    'relationship' => array(
+      'base' => 'Files', // The name of the table to join with.
+      'base field' => 'IDrev', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Files'),
+      'title' => t('Relationship with Files table.'),
+    ),
+
+    'relationship' => array(
+      'base' => 'Relate', // The name of the table to join with.
+      'base field' => 'IDrevP', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Relations'),
+      'title' => t('Relationship with Relations table.'),
+      'extra' => array(array('field' => 'S_RELTYPE', 'value' => 'TR', 'operator' => '=')),
+    ),

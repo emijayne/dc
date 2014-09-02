@@ -1,0 +1,88 @@
+/**
+ * @file
+ * Shows queries that should be included for Drupal to access info on Autocad1.
+ * 
+ * Since Drupal/Views doesn't play friendly with Adept's love of composite 
+ * keys, the following models were created from nested VIEWs on SQL SERVER:
+ */
+
+  // ----------------------------------------------------------------
+  // CurrentJobs
+
+SELECT  fm90jobs.*, fm90lib.S_LIBID, fm90lib.S_FOLDER, fm90lib.S_PATH, 
+        fm90jobs.TYPE + fm90jobs.S_JOBSEL AS Project
+FROM  fm90lib 
+      INNER JOIN fm90jobs ON REPLACE(fm90lib.S_FOLDER, ' - PDF', '') = fm90jobs.TYPE + fm90jobs.S_JOBSEL
+
+
+  // ----------------------------------------------------------------
+
+  // Fil1
+
+SELECT  *, (S_FILEID + '_' + CAST(S_MAJREV AS varchar(5)) + CAST(S_MINREV AS varchar(5))) As IDrev
+FROM  fm90fil
+
+  // Fil2
+
+SELECT  *, (S_FILEID + '_' + CAST(S_MAJREV AS varchar(5)) + CAST(S_MINREV AS varchar(5))) As IDrev
+FROM  fm90rev
+
+  // Files
+
+(SELECT * FROM Fil1) UNION ALL (SELECT * FROM Fil2)
+
+  
+  // ----------------------------------------------------------------
+  // Rel1
+  
+SELECT  fm90relf.*, IDrevP + '_' + IDrevC AS RELID, 
+        S_PARENTID + '_' + CAST(S_PMAJREV AS varchar(5)) + CAST(S_PMINREV AS varchar(5)) AS IDrevP, 
+        S_CHILDID + '_' + CAST(S_CMAJREV AS varchar(5)) + CAST(S_CMINREV AS varchar(5)) AS IDrevC, 
+FROM    fm90relf
+  
+  // Rel2
+  
+SELECT  fm90relr.*, IDrevP + '_' + IDrevC AS RELID, 
+        S_PARENTID + '_' + CAST(S_PMAJREV AS varchar(5)) + CAST(S_PMINREV AS varchar(5)) AS IDrevP, 
+        S_CHILDID + '_' + CAST(S_CMAJREV AS varchar(5)) + CAST(S_CMINREV AS varchar(5)) AS IDrevC, 
+FROM    fm90relr
+  
+  // Relate
+  
+(SELECT * FROM Rel1) UNION ALL (SELECT * FROM Rel2)
+
+
+  // ----------------------------------------------------------------
+  // Series
+
+SELECT  fm90format.ID, fm90format.FORMATNAME, fm90format.FMTCOUNTER, 
+        fm90fmtseg.FNVALUE, SUBSTRING(fm90fmtseg.FNVALUE, 7, 
+        CHARINDEX('-', SUBSTRING(fm90fmtseg.FNVALUE, 7, 100)) - 1) AS TransType, 
+        SUBSTRING(fm90format.FORMATNAME, 6, 100) AS Commodity
+FROM  fm90format
+      INNER JOIN fm90fmtseg ON fm90format.ID = fm90fmtseg.ID AND fm90format.FORMATNAME = fm90fmtseg.FREENAME
+
+
+  // ----------------------------------------------------------------
+  // TransBits
+
+SELECT  fm90cmd.S_COMMENT AS SentLog, fm90cmd.S_GMTDTIME AS SentDate, 
+        fm90usr.S_NAME AS SentBy, fm90cmd.S_FILEID, 
+        fm90cmd.S_FILEID + '_' + CAST(fm90cmd.S_MAJREV AS varchar(5)) + CAST(fm90cmd.S_MINREV AS varchar(5)) AS IDrev
+FROM  fm90cmd
+      INNER JOIN fm90usr ON fm90cmd.S_USERID = fm90usr.S_USERID
+WHERE (fm90cmd.S_OPNUM = 225)
+
+
+  // ----------------------------------------------------------------
+  // Transmittals
+
+SELECT  fm90trnsm.*, fm90fil.S_LONGNAME AS TransNo, TransBits.SentLog, 
+        TransBits.SentDate, TransBits.SentBy, CurrentJobs.Project, 
+        fm90trnsm.S_FILEID + '_' + CAST(fm90trnsm.S_MAJREV AS varchar(5)) + CAST(fm90trnsm.S_MINREV AS varchar(5)) AS IDrev, 
+        Series.Commodity, Series.TransType
+FROM  fm90trnsm
+      INNER JOIN fm90fil ON fm90trnsm.S_FILEID = fm90fil.S_FILEID AND fm90trnsm.S_MAJREV = fm90fil.S_MAJREV AND fm90trnsm.S_MINREV = fm90fil.S_MINREV 
+      INNER JOIN TransBits ON fm90trnsm.S_FILEID = TransBits.S_FILEID 
+      INNER JOIN CurrentJobs ON fm90trnsm.S_JOBID = CurrentJobs.S_JOBID 
+      INNER JOIN Series ON LEFT(fm90fil.S_LONGNAME, LEN(fm90fil.S_LONGNAME) - 7) = Series.FNVALUE

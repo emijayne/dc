@@ -1,0 +1,1699 @@
+<?php
+
+/**
+ * @file
+ * Provide views data and handlers for dc.module.
+ *
+ * Table models of the Adept and MDMDB databases. These are used to create 
+ * reports for the Document Control & Engineering departments. Certain tables 
+ * were altered and changed into saved queries (views) in the server itself. 
+ * Those saved views are named after their content.
+ * 
+ * Adept table descriptions by the software owner, Synergis, has been added to 
+ * a spreadsheet inside this module folder.
+ */
+
+/**
+ * Implements hook_views_data().
+ */
+function dc_views_data() { 
+
+  // Adept Tables.
+
+  // ------------------------------------------------------ basic info: fm90comp
+  $data['fm90comp']['table']['group'] = t('DC: Companies');
+
+  // Advertise as possible base table
+  $data['fm90comp']['table']['base'] = array(
+    'field' => 'S_COMPID',
+    'title' => t('DC: Companies'),    // same as group above
+    'database' => 'adeptTest', 
+    'weight' => -10,
+  );
+  $data['fm90comp']['table']['join'] = array(
+    'Transmittal' => array(
+      'left_field' => 'S_COMPID',
+      'field' => 'S_COMPID',
+    ),
+  );
+  // ---------------------------------------------------------- fields: fm90comp
+  $data['fm90comp']['S_COMPID'] = array(
+    'title' => t('Company GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Transmittal', // The name of the table to join with.
+      'base field' => 'S_COMPID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Transmittals Sent to Company'),
+      'title' => t('Relationship with Transmittal table.'),
+      'help' => t(' '),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_COMPNAME'] = array(
+    'title' => t('Company Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_ADDRESS1'] = array(
+    'title' => t('Street Address'),
+    'help' => t('Line 1'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_ADDRESS2'] = array(
+    'title' => t('Street Address'),
+    'help' => t('Line 2'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_CITY'] = array(
+    'title' => t('City'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_STATE'] = array(
+    'title' => t('State'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_ZIPCODE'] = array(
+    'title' => t('Postal Code'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90comp']['S_WEBADDR'] = array(
+    'title' => t('Website'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end FM90COMP */
+
+  // ------------------------------------------------------ basic info: fm90cont
+  $data['fm90cont']['table']['group'] = t('DC: Contacts');
+
+  // Advertise as possible base table
+  $data['fm90cont']['table']['base'] = array(
+    'field' => 'S_CONTID',
+    'title' => t('DC: Contacts'),   // same as group above
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  $data['fm90cont']['table']['join'] = array(
+    'fm90comp' => array(
+      'left_field' => 'S_COMPID',
+      'field' => 'S_COMPID',
+    ),
+    'Transmittal' => array(
+      'left_field' => 'S_CONTID',
+      'field' => 'S_CONTID',
+    ),
+  );
+  // ---------------------------------------------------------- fields: fm90cont
+  $data['fm90cont']['S_CONTID'] = array(
+    'title' => t('Contact GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Transmittal', // The name of the table to join with.
+      'base field' => 'S_CONTID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Transmittals sent to Contact'),
+      'title' => t('Relationship with Transmittal table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90cont']['S_COMPID'] = array(
+    'title' => t('Company GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'fm90comp', // The name of the table to join with.
+      'base field' => 'S_COMPID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Company for Contact'),
+      'title' => t('Relationship with Company table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90cont']['S_CONTNAME'] = array(
+    'title' => t('Contact Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90cont']['S_EMAIL'] = array(
+    'title' => t('Email'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90cont']['S_PHONE'] = array(
+    'title' => t('Phone'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90cont']['S_FAX'] = array(
+    'title' => t('Fax'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90cont']['S_EXT'] = array(
+    'title' => t('Extension'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end FM90CONT */
+
+  // ---------------------------------------------------- basic info: fm90distri
+  $data['fm90distri']['table']['group'] = t('DC: Distribution Members');
+
+  // Advertise as possible base table
+  $data['fm90distri']['table']['base'] = array(
+    'title' => t('DC: Distribution Members'),   // same as group above
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  $data['fm90distri']['table']['join'] = array(
+    'fm90distrl' => array(
+      'left_field' => 'S_DISTRLID',
+      'field' => 'S_DISTRLID',
+    ),
+    'fm90cont' => array(
+      'left_field' => 'S_CONTID',
+      'field' => 'S_CONTID',
+    ),  
+  );
+  // -------------------------------------------------------- fields: fm90distri
+  $data['fm90distri']['S_DISTRLID'] = array(
+    'title' => t('Distribution GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'fm90distrl', // The name of the table to join with.
+      'base field' => 'S_DISTRLID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Dist Lists'),
+      'title' => t('Relationship with Distribution List table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90distri']['S_CONTID'] = array(
+    'title' => t('Contact GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'fm90cont', // The name of the table to join with.
+      'base field' => 'S_CONTID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Contacts in Dist Listing'),
+      'title' => t('Relationship with Contact table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end FM90DISTRI */
+
+  // ---------------------------------------------------- basic info: fm90distrl
+  $data['fm90distrl']['table']['group'] = t('DC: Distribution Groups');
+
+  // Advertise as possible base table
+  $data['fm90distrl']['table']['base'] = array(
+    'field' => 'S_DISTRLID',
+    'title' => t('DC: Distribution Groups'),    // same as group above
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+    $data['fm90distrl']['table']['join'] = array(
+    'Transmittal' => array(
+      'left_field' => 'S_DISTRLID',
+      'field' => 'S_DISTRLID',
+    ),
+  );
+  // -------------------------------------------------------- fields: fm90distrl
+  $data['fm90distrl']['S_DISTRLID'] = array(
+    'title' => t('Distribution GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Transmittal', // The name of the table to join with.
+      'base field' => 'S_DISTRLID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Transmittals sent to this Dist List'),
+      'title' => t('Relationship with Transmittal table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90distrl']['S_NAME'] = array(
+    'title' => t('Distribution Group'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end FM90DISTRL */
+
+  // ------------------------------------------------------- basic info: fm90lib
+  $data['fm90distrl']['table']['group'] = t('DC: Libraries');
+
+  // Advertise as possible base table
+  $data['fm90lib']['table']['base'] = array(
+    'field' => 'S_LIBID',
+    'title' => t('DC: Libraries'),    // same as group above
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  // ----------------------------------------------------------- fields: fm90lib
+  $data['fm90lib']['S_LIBID'] = array(
+    'title' => t('Library GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90lib']['S_FOLDER'] = array(
+    'title' => t('Library Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['fm90lib']['S_PATH'] = array(
+    'title' => t('Library Path'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end FM90LIB */
+
+
+  // Since Drupal/Views doesn't play friendly with Adept's love of composite 
+  // keys, the following models were created from nested VIEWs on SQL SERVER:
+
+
+  // ------------------------------------------------------ view modeling: Files
+  //    (SELECT * FROM FilLatest) UNION ALL (SELECT * FROM FilRevisions)
+
+  // -------------------------------------------------- view modeling: FilLatest
+  //    SELECT *, (S_FILEID + '_' + CAST(S_MAJREV AS varchar(5)) + 
+  //      CAST(S_MINREV AS varchar(5))) As IDrev
+  //    FROM fm90fil
+
+  // ----------------------------------------------- view modeling: FilRevisions
+  //    SELECT *, (S_FILEID + '_' + CAST(S_MAJREV AS varchar(5)) + 
+  //      CAST(S_MINREV AS varchar(5))) As IDrev
+  //    FROM fm90rev
+
+  // --------------------------------------------------------- basic info: Files
+  $data['Files2']['table']['group'] = t('DC: Files');
+
+  // Advertise as possible base table
+  $data['Files2']['table']['base'] = array(
+    'field' => 'IDrev',
+    'title' => t('DC: Files'),
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  $data['Files2']['table']['join'] = array(
+    'Relations' => array(
+      'left_field' => 'IDrevC',
+      'field' => 'IDrev',
+    ),
+    'fm90lib' => array(
+      'left_field' => 'S_LIBID',
+      'field' => 'S_LIBID',
+    ),
+  );
+  // ------------------------------------------------------------- fields: Files
+  $data['Files2']['IDrev'] = array(
+    'title' => t('IDrev'),
+    'help' => t('Concatenated Composite Key'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Relations', // The name of the table to join with.
+      'base field' => 'IDrevC', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Transmittal Relation'),
+      'title' => t('Relationship to Transmittals.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_EXT'] = array(
+    'title' => t('File extension'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_FILEID'] = array(
+    'title' => t('File GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_FMDATE'] = array(
+    'title' => t('ADEPT Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'dc_handler_field_datetime',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort_date',),
+    'filter' => array('handler' => 'dc_handler_filter_date',),
+    'argument' => array('handler' => 'views_handler_argument_date',),
+  );
+  $data['Files2']['S_GREV'] = array(
+    'title' => t('Greatest Revision'),
+    'help' => t('Bool: Is the greatest rev of the Document Series?'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_LIBID'] = array(
+    'title' => t('Library GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'fm90lib', // The name of the table to join with.
+      'base field' => 'S_LIBID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Library Relation'),
+      'title' => t('Relationship to Library.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_LONGNAME'] = array(
+    'title' => t('File Name'),
+    'help' => t('Full File Name and Extension'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_MAJREV'] = array(
+    'title' => t('Major Rev'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  $data['Files2']['S_MINREV'] = array(
+    'title' => t('Minor Rev'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  $data['Files2']['S_SRCDB'] = array(
+    'title' => t('Source DB Table'),
+    'help' => t('If "1", then current revision. If "14", then previous revision.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  $data['Files2']['S_STATUS'] = array(
+    'title' => t('Current Status'),
+    'help' => t('"IN", "OUT, "VERSIONED", etc'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_FILEUTC'] = array(
+    'title' => t('S_FILEUTC'),
+    'help' => t('File UTC'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['S_EXTRUTC'] = array(
+    'title' => t('S_EXTRUTC'),
+    'help' => t('Extracted UTC'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['PROJECT'] = array(
+    'title' => t('Project #'),
+    'help' => t('4-digit Project Number'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['PROJ_TYPE'] = array(
+    'title' => t('Project Type'),
+    'help' => t('C/ D/ S/ L'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['COMMENT2'] = array(
+    'title' => t('Comment 2'),
+    'help' => t('Second Comment'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['CUSTOMER'] = array(
+    'title' => t('Customer'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['SEQUENCE'] = array(
+    'title' => t('Document Sequence'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['DWG_SCALE'] = array(
+    'title' => t('Drawing Scale'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['DWG_SIZE'] = array(
+    'title' => t('Drawing Size'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['PLANT'] = array(
+    'title' => t('Plant Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['PRODUCT'] = array(
+    'title' => t('Product'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['REVISION'] = array(
+    'title' => t('Revision'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['SHEET_NO'] = array(
+    'title' => t('Sheet Number'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['TITLE_1'] = array(
+    'title' => t('Title Field 1'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['TITLE_2'] = array(
+    'title' => t('Title Field 2'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['TITLE_3'] = array(
+    'title' => t('Title Field 3'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['TITLE_4'] = array(
+    'title' => t('Title Field 4'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['TOTAL_SH'] = array(
+    'title' => t('Total # of Sheets'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['UNIT_NO'] = array(
+    'title' => t('Unit Number'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['PRODUCTCYC'] = array(
+    'title' => t('Product Cycle'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['SERIESNO'] = array(
+    'title' => t('Series Number'),
+    'help' => t('Series / EMES / Commodity'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['VENDDWGNO'] = array(
+    'title' => t('Vendor Document Number'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['VENDNAME'] = array(
+    'title' => t('Vendor Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['VENDPONO'] = array(
+    'title' => t('Vendor PO #'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['VENDRCVDTE'] = array(
+    'title' => t('Vendor Receive Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['VENDRTDTE'] = array(
+    'title' => t('Vendor Return Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['FIELDPRINT'] = array(
+    'title' => t('Field Print'),
+    'help' => t('Is Document a Field Print? P = yes, N = no'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['DWG_TYPE'] = array(
+    'title' => t('Document Type'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['LAST_NAME'] = array(
+    'title' => t('Last Name'),
+    'help' => t('User who submitted document'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['FIRST_INIT'] = array(
+    'title' => t('First Initial'),
+    'help' => t('User who submitted document'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['REV_DATE'] = array(
+    'title' => t('Revision Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'dc_handler_field_datetime',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort_date',),
+    'filter' => array('handler' => 'dc_handler_filter_date',),
+    'argument' => array('handler' => 'views_handler_argument_date',),
+  );
+  $data['Files2']['STATUSCODE'] = array(
+    'title' => t('Status Code'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['STATUSDATE'] = array(
+    'title' => t('Status Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['DRWN'] = array(
+    'title' => t('Drawn'),
+    'help' => t('Drawn By??'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['PLANTLOC'] = array(
+    'title' => t('Plant Location'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['CADREVDATE'] = array(
+    'title' => t('CAD Revision Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['DWG_STATE'] = array(
+    'title' => t('Document State'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['SPCL_SORT'] = array(
+    'title' => t('Special Sort'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['REC_CLIENT'] = array(
+    'title' => t('Received from Client'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['REC_VENDOR'] = array(
+    'title' => t('Received from Vendor'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Files2']['REC_INTERN'] = array(
+    'title' => t('Received from Internal Routing'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end FILES */
+
+
+  // -------------------------------------------- view modeling: CurrentProjects
+  // SELECT fm90jobs.*,  fm90lib.S_LIBID, fm90lib.S_FOLDER, fm90lib.S_PATH
+  //            REPLACE(dbo.fm90lib.S_FOLDER, ' - PDF', '') AS Project
+  // FROM  fm90lib INNER JOIN fm90jobs
+  //            ON LEFT(fm90lib.S_FOLDER, 5) = fm90jobs.TYPE + fm90jobs.S_JOBSEL
+
+  // ----------------------------------------------- basic info: CurrentProjects
+  $data['CurrentProjects']['table']['group'] = t('DC: Current Projects View');
+
+  // Advertise as possible base table
+  $data['CurrentProjects']['table']['base'] = array(
+    'field' => 'S_JOBID',
+    'title' => t('DC: Current Projects View'),
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  $data['CurrentProjects']['table']['join'] = array(
+    'Transmittal' => array(
+      'left_field' => 'S_JOBID',
+      'field' => 'S_JOBID',
+    ),
+    'Files2' => array(
+      'left_field' => 'S_LIBID',
+      'field' => 'S_LIBID',
+    ),
+  );
+  // --------------------------------------------------- fields: CurrentProjects
+  $data['CurrentProjects']['S_JOBID'] = array(
+    'title' => t('Project ID'),
+    'help' => t('GUID number from old Access.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Transmittal', // The name of the table to join with.
+      'base field' => 'S_JOBID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Project Transmittals'),
+      'title' => t('Relationship with Transmittal table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['S_JOBNAME'] = array(
+    'title' => t('Project Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['S_JOBSEL'] = array(
+    'title' => t('Project Number'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['OWNER'] = array(
+    'title' => t('Owner'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['CLIENT'] = array(
+    'title' => t('Client'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['REFNO'] = array(
+    'title' => t('Reference Number'),
+    'help' => t('Usually the Client PO Number.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['LOCATION'] = array(
+    'title' => t('Location'),
+    'help' => t('Usually the Plant Address'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['REVC'] = array(
+    'title' => t('Client Response Time'),
+    'help' => t('Usually 10 days'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  $data['CurrentProjects']['REVV'] = array(
+    'title' => t('Vendor Response Time'),
+    'help' => t('Usually 10 days'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  $data['CurrentProjects']['REVI'] = array(
+    'title' => t('Internal Response Time'),
+    'help' => t('Usually 10 days'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  $data['CurrentProjects']['PRODUCT'] = array(
+    'title' => t('Product'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['TYPE'] = array(
+    'title' => t('Project Type'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['SERIES'] = array(
+    'title' => t('Series'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['S_LIBID'] = array(
+    'title' => t('Library GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Files2', // The name of the table to join with.
+      'base field' => 'S_LIBID', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Current Project Files'),
+      'title' => t('Relationship with Files table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['S_FOLDER'] = array(
+    'title' => t('Library Folder Name'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['S_PATH'] = array(
+    'title' => t('Library Path'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['CurrentProjects']['Project'] = array(
+    'title' => t('Project'),
+    'help' => t('Project Type & Number'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end CurrentProjects */
+
+  // ----------------------------------------------- view modeling: Transmittals
+  // SELECT  fm90trnsm.*, fm90fil.S_LONGNAME AS Transmittal,  
+  //         SUBSTRING(fm90format.FORMATNAME, 
+  //           CHARINDEX('-', fm90format.FORMATNAME) + 1, 100) AS Commodity, 
+  //         fm90format.FMTCOUNTER AS TransCount, fm90format.ID,
+  //         fm90trnsm.S_FILEID + '_' + CAST(fm90trnsm.S_MAJREV AS varchar(5)) + 
+  //           CAST(fm90trnsm.S_MINREV AS varchar(5)) AS IDrev,
+  //         TransDetails.Comment, TransDetails.SentDate, TransDetails.SentBy 
+  // FROM  fm90trnsm 
+  //       INNER JOIN fm90fil ON fm90trnsm.S_FILEID = fm90fil.S_FILEID 
+  //       INNER JOIN fm90format ON LEFT(fm90fil.S_LONGNAME, 
+  //           LEN(fm90format.FORMATNAME)) = fm90format.FORMATNAME
+  //       INNER JOIN TransDetails ON Transmittal.IDrev = dbo.TransDetails.IDrev
+
+  // ----------------------------------------------- view modeling: TransDetails
+  // SELECT  fm90cmd.S_FILEID + '_' + CAST(fm90cmd.S_MAJREV AS varchar(5)) + 
+  //           CAST(fm90cmd.S_MINREV AS varchar(5)) AS IDrev, 
+  //         fm90cmd.S_COMMENT AS Comment, fm90cmd.S_GMTDTIME AS SentDate, 
+  //           fm90usr.S_NAME AS SentBy
+  // FROM  fm90cmd INNER JOIN fm90usr ON fm90cmd.S_USERID = fm90usr.S_USERID
+  // WHERE  (fm90cmd.S_OPNUM = 225)
+
+  // -------------------------------------------------- basic info: Transmittals
+  $data['Transmittal']['table']['group'] = t('DC: Transmittals');
+
+  // Advertise as possible base table
+  $data['Transmittal']['table']['base'] = array(
+    'field' => 'S_TRNSMID',
+    'title' => t('DC: Transmittals'),   // same as group above
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  // ------------------------------------------------------ fields: Transmittals
+  $data['Transmittal']['S_TRNSMID'] = array(
+    'title' => t('Transmittal GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['IDrev'] = array(
+    'title' => t('IDrev'),
+    'help' => t('Concatenated Composite Key'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['S_FILEID'] = array(
+    'title' => t('Transmittal File GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['S_JOBID'] = array(
+    'title' => t('Jobs GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['S_COMPID'] = array(
+    'title' => t('Company GUID'),
+    'help' => t('Addressee - Company'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['S_CONTID'] = array(
+    'title' => t('Contact GUID'),
+    'help' => t('Addressee - Contact'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['S_DISTRLID'] = array(
+    'title' => t('Distribution GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['COMMENTS'] = array(
+    'title' => t('Comments'),
+    'help' => t('Comments'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['MEDIA'] = array(
+    'title' => t('Media'),
+    'help' => t('Media Type of Transmittal'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['METHOD'] = array(
+    'title' => t('Method'),
+    'help' => t('Method transmittal was sent'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['TransmittalNum'] = array(
+    'title' => t('Transmittal Number'),
+    'help' => t('Full Document Name including extension'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['Commodity'] = array(
+    'title' => t('Commodity Code'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['Project'] = array(
+    'title' => t('Project'),
+    'help' => t('Project Type & Number'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => True,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['S_LIBID'] = array(
+    'title' => t('Library GUID'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['SentLog'] = array(
+    'title' => t('Sent Log'),
+    'help' => t('Log message when transmittal is sent'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['SentDate'] = array(
+    'title' => t('Sent Date'),
+    'help' => t('Date the transmtital was sent'),
+    'field' => array(
+      'handler' => 'dc_handler_field_datetime',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort_date',),
+    'filter' => array('handler' => 'dc_handler_filter_datetime',),
+    'argument' => array('handler' => 'views_handler_argument_date',),
+  );
+  $data['Transmittal']['SentBy'] = array(
+    'title' => t('Sent By'),
+    'help' => t('User who sent transmittal'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['TransNo'] = array(
+    'title' => t('Transmittal Number'),
+    'help' => t('Transmittal Number, Short'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Transmittal']['TransType'] = array(
+    'title' => t('Transmittal Type'),
+    'help' => t('Type of transmittal: C/V/R'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  /* end TRANSMITTALS */
+
+  // -------------------------------------------------- view modeling: Relations
+  //    (SELECT * FROM RelLatest) UNION ALL (SELECT * FROM RElRevisions)
+  // -------------------------------------------------- view modeling: RelLatest
+  //    SELECT  fm90relf.*, IDrevP + '_' + IDrevC AS RELID, 
+  //            S_PARENTID + '_' + CAST(S_PMAJREV AS varchar(5)) + 
+  //              CAST(S_PMINREV AS varchar(5)) AS IDrevP, 
+  //            S_CHILDID + '_' + CAST(S_CMAJREV AS varchar(5)) + 
+  //              CAST(S_CMINREV AS varchar(5)) AS IDrevC, 
+  //    FROM  fm90relf
+  // ----------------------------------------------- view modeling: RElRevisions
+  //    SELECT  fm90relr.*, IDrevP + '_' + IDrevC AS RELID, 
+  //            S_PARENTID + '_' + CAST(S_PMAJREV AS varchar(5)) + 
+  //              CAST(S_PMINREV AS varchar(5)) AS IDrevP, 
+  //            S_CHILDID + '_' + CAST(S_CMAJREV AS varchar(5)) + 
+  //              CAST(S_CMINREV AS varchar(5)) AS IDrevC, 
+  //    FROM  fm90relr
+
+  // ----------------------------------------------------- basic info: Relations
+  $data['Relations']['table']['group'] = t('DC: Trans-File Relation');
+
+  // Advertise as possible base table
+  $data['Relations']['table']['base'] = array(
+    'field' => 'RELID',
+    'title' => t('DC: Trans-File Relation'),    // same as group above
+    'database' => 'adeptTest',
+    'weight' => -10,
+  );
+  $data['Relations']['table']['join'] = array(
+    'Transmittal' => array(
+      'left_field' => 'IDrev',
+      'field' => 'IDrevP',
+    ),
+  );
+  // --------------------------------------------------------- fields: Relations
+  $data['Relations']['RELID'] = array(
+    'title' => t('RELID'),
+    'help' => t('Concatenated Composite Key'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Relations']['IDrevP'] = array(
+    'title' => t('IDrevP'),
+    'help' => t('Concatenated Composite Key - Parent'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'relationship' => array(
+      'base' => 'Transmittal', // The name of the table to join with.
+      'base field' => 'IDrev', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Transmittal'),
+      'title' => t('Relationship with Transmittal table.'),
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Relations']['IDrevC'] = array(
+    'title' => t('IDrevC'),
+    'help' => t('Concatenated Composite Key - Child'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['Relations']['S_RELTYPE'] = array(
+    'title' => t('S_RELTYPE'),
+    'help' => t('Relationship Type'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  /* end RELF */
+
+  // MDMDB Tables.
+
+  // ---------------------------------------------------- basic info: docrpt_all
+  $data['docrpt_all']['table']['group'] = t('MDMDB: DocLists');
+
+  // Advertise as possible base table
+  $data['docrpt_all']['table']['base'] = array(
+    'field' => 'TransmittalFileID',
+    'title' => t('MDMDB: DocLists'),    // same as group above
+    'database' => 'mdmdb',
+    'weight' => -10,
+  );
+  // -------------------------------------------------------- fields: docrpt_all
+  $data['docrpt_all']['TransmittalFileID'] = array(
+    'title' => t('TransmittalFileID'),
+    'help' => t('Transmittal File GUID.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalID'] = array(
+    'title' => t('TransmittalID'),
+    'help' => t('Transmittal GUID.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['ProjectID'] = array(
+    'title' => t('ProjectID'),
+    'help' => t('Project GUID.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalSeries'] = array(
+    'title' => t('Transmittal Series'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalType'] = array(
+    'title' => t('Transmittal Type'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalNumber'] = array(
+    'title' => t('Transmittal Number'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalSentDate'] = array(
+    'title' => t('Sent Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort_date',),
+    'filter' => array('handler' => 'views_handler_filter_date',),
+    'argument' => array('handler' => 'views_handler_argument_date',),
+  );
+  $data['docrpt_all']['TransmittalReplyDate'] = array(
+    'title' => t('Reply Date'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field_date',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort_date',),
+    'filter' => array('handler' => 'views_handler_filter_date',),
+    'argument' => array('handler' => 'views_handler_argument_date',),
+  );
+  $data['docrpt_all']['TransmittalMedium'] = array(
+    'title' => t('Medium'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalDelivery'] = array(
+    'title' => t('Delivery'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_string',),
+    'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['docrpt_all']['TransmittalPrintAmount'] = array(
+    'title' => t('Print Amount'),
+    'help' => t(' '),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array('handler' => 'views_handler_sort',),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
+  );
+  /* end docrpt_all */
+
+  return $data;
+}

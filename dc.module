@@ -1,0 +1,32 @@
+<?php
+// {modulename}_{functionname}
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+ 
+function dc_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#dc":
+      return '<p>' . t("This module simply provides Views with table references 
+      in order to display information from Adept.") . '</p>';
+      break;
+  }
+} 
+
+/**
+ * Implements hook_views_api().
+ */
+
+function dc_views_api() {
+    return array(
+        'api' => 3,
+    );
+}
