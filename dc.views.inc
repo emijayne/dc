@@ -1491,6 +1491,18 @@ function dc_views_data() {
     'database' => 'adept90',
     'weight' => -10,
   );
+    $data['ChildFiles']['table']['join'] = array(
+    'Files' => array(
+      'left_field' => 'IDrev',
+      'field' => 'IDrevP',
+    ),
+  );
+    $data['ChildFiles']['table']['join'] = array(
+    'TransFiles' => array(
+      'left_field' => 'IDrev',
+      'field' => 'IDrevP',
+    ),
+  );
 
   // ChildFiles - Fields
   $data['ChildFiles']['RELID'] = array(
@@ -1519,13 +1531,6 @@ function dc_views_data() {
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => FALSE,
-    ),
-    'relationship' => array(
-      'base' => 'Files', // The name of the table to join with.
-      'base field' => 'IDrev', // The name of the field on the joined table.
-      'handler' => 'views_handler_relationship',
-      'label' => t('Files'),
-      'title' => t('Relationship with Files table.'),
     ),
     'filter' => array('handler' => 'views_handler_filter_string',),
     'argument' => array('handler' => 'views_handler_argument_string',),
@@ -1708,6 +1713,12 @@ function dc_views_data() {
     'database' => 'adept90',
     'weight' => -10,
   );
+    $data['TransFiles']['table']['join'] = array(
+    'Transmittals' => array(
+      'left_field' => 'IDrev',
+      'field' => 'IDrevP',
+    ),
+  );
 
   // TransFiles - Fields
   $data['TransFiles']['RELID'] = array(
@@ -1727,6 +1738,13 @@ function dc_views_data() {
       'handler' => 'views_handler_field',
       'click sortable' => FALSE,
     ),
+    'relationship' => array(
+      'base' => 'Transmittals', // The name of the table to join with.
+      'base field' => 'IDrev', // The name of the field on the joined table.
+      'handler' => 'views_handler_relationship',
+      'label' => t('Transmittals'),
+      'title' => t('Relationship between Transmittals and their files.'),
+    ),
     'filter' => array('handler' => 'views_handler_filter_string',),
     'argument' => array('handler' => 'views_handler_argument_string',),
   );
@@ -1736,13 +1754,6 @@ function dc_views_data() {
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => FALSE,
-    ),
-    'relationship' => array(
-      'base' => 'Files', // The name of the table to join with.
-      'base field' => 'IDrev', // The name of the field on the joined table.
-      'handler' => 'views_handler_relationship',
-      'label' => t('Files'),
-      'title' => t('Relationship with Files table.'),
     ),
     'filter' => array('handler' => 'views_handler_filter_string',),
     'argument' => array('handler' => 'views_handler_argument_string',),
