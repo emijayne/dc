@@ -1499,7 +1499,7 @@ function dc_views_data() {
   );
     $data['ChildFiles']['table']['join'] = array(
     'TransFiles' => array(
-      'left_field' => 'IDrev',
+      'left_field' => 'IDrevC',
       'field' => 'IDrevP',
     ),
   );
@@ -1567,6 +1567,16 @@ function dc_views_data() {
     'sort' => array('handler' => 'views_handler_sort',),
     'filter' => array('handler' => 'views_handler_filter_string',),
     'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['ChildFiles']['S_SRCDB'] = array(
+    'title' => t('Source DB Table'),
+    'help' => t('If "1", then current revision. If "14", then previous revision.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
   );
   $data['ChildFiles']['REVISION'] = array(
     'title' => t('Revision'),
@@ -1790,6 +1800,16 @@ function dc_views_data() {
     'sort' => array('handler' => 'views_handler_sort',),
     'filter' => array('handler' => 'views_handler_filter_string',),
     'argument' => array('handler' => 'views_handler_argument_string',),
+  );
+  $data['TransFiles']['S_SRCDB'] = array(
+    'title' => t('Source DB Table'),
+    'help' => t('If "1", then current revision. If "14", then previous revision.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => FALSE,
+    ),
+    'filter' => array('handler' => 'views_handler_filter_numeric',),
+    'argument' => array('handler' => 'views_handler_argument_numeric',),
   );
   $data['TransFiles']['REVISION'] = array(
     'title' => t('Revision'),
