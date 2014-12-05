@@ -1,4 +1,14 @@
 <?php
+/**
+ * @file
+ * DateTime Conversion from SQL into UNIX.
+ *
+ * Converts the DATETIME from the database into unixtime then allows
+ * views_handler_field_date to render as usual.
+ * Also tricks php into thinking the time is in the same timezone, no
+ * matter the default timezone.
+ */
+
 
 /*
  * All the comparisons need to be done with SQL DATETIMES and not unixtime

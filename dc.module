@@ -1,5 +1,9 @@
 <?php
-// {modulename}_{functionname}
+/**
+ * @file
+ * Help and API settings for DC Module.
+ */
+
 
 /**
  * Implements hook_help().

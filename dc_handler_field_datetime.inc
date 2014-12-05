@@ -1,13 +1,16 @@
 <?php
+/**
+ * @file
+ * DateTime Conversion from SQL into UNIX.
+ *
+ * Converts the DATETIME from the database into unixtime then allows
+ * views_handler_field_date to render as usual.
+ * Also tricks php into thinking the time is in the same timezone, no
+ * matter the default timezone.
+ */
 
-class dc_handler_field_datetime extends views_handler_field_date {
+ class dc_handler_field_datetime extends views_handler_field_date {
 
-  /*
-     * Convert the DATETIME from the database into unixtime then allow
-     * views_handler_field_date to render as usual.
-     * Also trick php into thinking the time is in the same timezone, no
-     * matter the default timezone
-     */
   function render($values) {
     $value = $values->{$this->field_alias};
 
