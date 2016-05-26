@@ -19,29 +19,30 @@
 function dc_views_data() { 
 
   // Adept Tables.
+  // Adept Tables.
 
   // ----------------------------------------------------------------
-  // fm90comp - Basic Info
+  // fm100comp - Basic Info
   
-  $data['fm90comp']['table']['group'] = t('DC: Companies');
+  $data['fm100comp']['table']['group'] = t('DC: Companies');
 
   // Advertise as possible base table
-  $data['fm90comp']['table']['base'] = array(
+  $data['fm100comp']['table']['base'] = array(
     'field' => 'S_COMPID', 
     'title' => t('DC: Companies'), 
     'database' => 'adept90', 
     'weight' => -10, 
   );
-  $data['fm90comp']['table']['join'] = array(
+  $data['fm100comp']['table']['join'] = array(
     'Transmittals' => array(
       'left_field' => 'S_COMPID', 
       'field' => 'S_COMPID', 
     ), 
   );
   
-  // fm90comp - Fields
+  // fm100comp - Fields
   
-  $data['fm90comp']['S_COMPID'] = array(
+  $data['fm100comp']['S_COMPID'] = array(
     'title' => t('Company GUID'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -58,7 +59,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_COMPNAME'] = array(
+  $data['fm100comp']['S_COMPNAME'] = array(
     'title' => t('Company Name'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -68,7 +69,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_ADDRESS1'] = array(
+  $data['fm100comp']['S_ADDRESS1'] = array(
     'title' => t('Street Address'), 
     'help' => t('Line 1'), 
     'field' => array(
@@ -79,7 +80,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_ADDRESS2'] = array(
+  $data['fm100comp']['S_ADDRESS2'] = array(
     'title' => t('Street Address'), 
     'help' => t('Line 2'), 
     'field' => array(
@@ -90,7 +91,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_CITY'] = array(
+  $data['fm100comp']['S_CITY'] = array(
     'title' => t('City'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -100,7 +101,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_STATE'] = array(
+  $data['fm100comp']['S_STATE'] = array(
     'title' => t('State'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -110,7 +111,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_ZIPCODE'] = array(
+  $data['fm100comp']['S_ZIPCODE'] = array(
     'title' => t('Postal Code'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -120,7 +121,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90comp']['S_WEBADDR'] = array(
+  $data['fm100comp']['S_WEBADDR'] = array(
     'title' => t('Website'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -130,22 +131,22 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  /* end FM90COMP */
+  /* end fm100COMP */
 
   // ----------------------------------------------------------------
-  // fm90cont - Basic Info
+  // fm100cont - Basic Info
   
-  $data['fm90cont']['table']['group'] = t('DC: Contacts');
+  $data['fm100cont']['table']['group'] = t('DC: Contacts');
 
   // Advertise as possible base table
-  $data['fm90cont']['table']['base'] = array(
+  $data['fm100cont']['table']['base'] = array(
     'field' => 'S_CONTID', 
     'title' => t('DC: Contacts'),   // same as group above
     'database' => 'adept90', 
     'weight' => -10, 
   );
-  $data['fm90cont']['table']['join'] = array(
-    'fm90comp' => array(
+  $data['fm100cont']['table']['join'] = array(
+    'fm100comp' => array(
       'left_field' => 'S_COMPID', 
       'field' => 'S_COMPID', 
     ), 
@@ -155,9 +156,9 @@ function dc_views_data() {
     ), 
   );
   
-  // fm90cont - Fields
+  // fm100cont - Fields
   
-  $data['fm90cont']['S_CONTID'] = array(
+  $data['fm100cont']['S_CONTID'] = array(
     'title' => t('Contact GUID'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -173,14 +174,14 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90cont']['S_COMPID'] = array(
+  $data['fm100cont']['S_COMPID'] = array(
     'title' => t('Company GUID'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
       'click sortable' => FALSE, 
     ), 
     'relationship' => array(
-      'base' => 'fm90comp', // The name of the table to join with.
+      'base' => 'fm100comp', // The name of the table to join with.
       'base field' => 'S_COMPID', // The name of the field on the joined table.
       'handler' => 'views_handler_relationship', 
       'label' => t('Company for Contact'), 
@@ -189,7 +190,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90cont']['S_CONTNAME'] = array(
+  $data['fm100cont']['S_CONTNAME'] = array(
     'title' => t('Contact Name'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -199,7 +200,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90cont']['S_EMAIL'] = array(
+  $data['fm100cont']['S_EMAIL'] = array(
     'title' => t('Email'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -209,7 +210,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90cont']['S_PHONE'] = array(
+  $data['fm100cont']['S_PHONE'] = array(
     'title' => t('Phone'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -219,7 +220,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90cont']['S_FAX'] = array(
+  $data['fm100cont']['S_FAX'] = array(
     'title' => t('Fax'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -229,7 +230,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90cont']['S_EXT'] = array(
+  $data['fm100cont']['S_EXT'] = array(
     'title' => t('Extension'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -239,45 +240,45 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  /* end FM90CONT */
+  /* end fm100CONT */
 
   // ----------------------------------------------------------------
-  // fm90distri - Basic Info
+  // fm100distri - Basic Info
   
-  $data['fm90distri']['table']['group'] = t('DC: Distribution Members');
+  $data['fm100distri']['table']['group'] = t('DC: Distribution Members');
 
   // Advertise as possible base table
-  $data['fm90distri']['table']['base'] = array(
+  $data['fm100distri']['table']['base'] = array(
     'title' => t('DC: Distribution Members'),   // same as group above
     'database' => 'adept90', 
     'weight' => -10, 
   );
-  $data['fm90distri']['table']['join'] = array(
-    'fm90distrl' => array(
+  $data['fm100distri']['table']['join'] = array(
+    'fm100distrl' => array(
       'left_field' => 'S_DISTRLID', 
       'field' => 'S_DISTRLID', 
     ), 
-    'fm90cont' => array(
+    'fm100cont' => array(
       'left_field' => 'S_CONTID', 
       'field' => 'S_CONTID', 
     ),  
     'Transmittals' => array(
-      'left_table' => 'fm90distrl', 
+      'left_table' => 'fm100distrl', 
       'left_field' => 'S_DISTRLID', 
       'field' => 'S_DISTRLID', 
     ), 
   );
   
-  // fm90distri - Fields
+  // fm100distri - Fields
   
-  $data['fm90distri']['S_DISTRLID'] = array(
+  $data['fm100distri']['S_DISTRLID'] = array(
     'title' => t('Distribution GUID'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
       'click sortable' => FALSE, 
     ), 
     'relationship' => array(
-      'base' => 'fm90distrl', // The name of the table to join with.
+      'base' => 'fm100distrl', // The name of the table to join with.
       'base field' => 'S_DISTRLID', // The name of the field on the joined table.
       'handler' => 'views_handler_relationship', 
       'label' => t('Dist Lists'), 
@@ -286,14 +287,14 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90distri']['S_CONTID'] = array(
+  $data['fm100distri']['S_CONTID'] = array(
     'title' => t('Contact GUID'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
       'click sortable' => FALSE, 
     ), 
     'relationship' => array(
-      'base' => 'fm90cont', // The name of the table to join with.
+      'base' => 'fm100cont', // The name of the table to join with.
       'base field' => 'S_CONTID', // The name of the field on the joined table.
       'handler' => 'views_handler_relationship', 
       'label' => t('Contacts in Dist Listing'), 
@@ -302,30 +303,30 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  /* end FM90DISTRI */
+  /* end fm100DISTRI */
 
   // ----------------------------------------------------------------
-  // fm90distrl - Basic Info
+  // fm100distrl - Basic Info
   
-  $data['fm90distrl']['table']['group'] = t('DC: Distribution Groups');
+  $data['fm100distrl']['table']['group'] = t('DC: Distribution Groups');
 
   // Advertise as possible base table
-  $data['fm90distrl']['table']['base'] = array(
+  $data['fm100distrl']['table']['base'] = array(
     'field' => 'S_DISTRLID', 
     'title' => t('DC: Distribution Groups'), 
     'database' => 'adept90', 
     'weight' => -10, 
   );
-    $data['fm90distrl']['table']['join'] = array(
+    $data['fm100distrl']['table']['join'] = array(
     'Transmittals' => array(
       'left_field' => 'S_DISTRLID', 
       'field' => 'S_DISTRLID', 
     ), 
   );
   
-  // fm90distrl - Fields
+  // fm100distrl - Fields
   
-  $data['fm90distrl']['S_DISTRLID'] = array(
+  $data['fm100distrl']['S_DISTRLID'] = array(
     'title' => t('Distribution GUID'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -341,7 +342,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['fm90distrl']['S_NAME'] = array(
+  $data['fm100distrl']['S_NAME'] = array(
     'title' => t('Distribution Group'), 
     'help' => t('_'),    'field' => array(
       'handler' => 'views_handler_field', 
@@ -351,7 +352,7 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  /* end FM90DISTRL */
+  /* end fm100DISTRL */
 
   // ----------------------------------------------------------------
   // CurrentJobs - Basic Info
@@ -612,9 +613,20 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['Files']['S_FMDATE'] = array(
+  $data['Files']['S_ADEPTUTC'] = array(
     'title' => t('ADEPT Date'), 
-    'help' => t('_'),    'field' => array(
+    'help' => t('_'),
+    'field' => array(
+      'handler' => 'views_handler_field', 
+      'click sortable' => TRUE, 
+    ), 
+    'filter' => array('handler' => 'views_handler_filter_string', ), 
+    'argument' => array('handler' => 'views_handler_argument_string', ), 
+  );
+  $data['Files']['AdeptDate'] = array(
+    'title' => t('ADEPT File Date'), 
+    'help' => t('S_AdeptUTC converted to datetime.'),
+    'field' => array(
       'handler' => 'dc_handler_field_datetime', 
       'click sortable' => TRUE, 
     ), 
@@ -1476,9 +1488,20 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['ChildFiles']['S_FMDATE'] = array(
+  $data['ChildFiles']['S_ADEPTUTC'] = array(
     'title' => t('ADEPT Date'), 
-    'help' => t('_'),    'field' => array(
+    'help' => t('_'),
+    'field' => array(
+      'handler' => 'views_handler_field', 
+      'click sortable' => TRUE, 
+    ), 
+    'filter' => array('handler' => 'views_handler_filter_string', ), 
+    'argument' => array('handler' => 'views_handler_argument_string', ), 
+  );
+  $data['ChildFiles']['AdeptDate'] = array(
+    'title' => t('ADEPT File Date'), 
+    'help' => t('S_AdeptUTC converted to datetime.'),
+    'field' => array(
       'handler' => 'dc_handler_field_datetime', 
       'click sortable' => TRUE, 
     ), 
@@ -1698,9 +1721,20 @@ function dc_views_data() {
     'filter' => array('handler' => 'views_handler_filter_string', ), 
     'argument' => array('handler' => 'views_handler_argument_string', ), 
   );
-  $data['TransFiles']['S_FMDATE'] = array(
+  $data['TransFiles']['S_ADEPTUTC'] = array(
     'title' => t('ADEPT Date'), 
-    'help' => t('_'),    'field' => array(
+    'help' => t('_'),
+    'field' => array(
+      'handler' => 'views_handler_field', 
+      'click sortable' => TRUE, 
+    ), 
+    'filter' => array('handler' => 'views_handler_filter_string', ), 
+    'argument' => array('handler' => 'views_handler_argument_string', ), 
+  );
+  $data['TransFiles']['AdeptDate'] = array(
+    'title' => t('ADEPT File Date'), 
+    'help' => t('S_AdeptUTC converted to datetime.'),
+    'field' => array(
       'handler' => 'dc_handler_field_datetime', 
       'click sortable' => TRUE, 
     ), 
